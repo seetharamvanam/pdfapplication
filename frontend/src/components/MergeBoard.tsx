@@ -302,31 +302,80 @@ export default function MergeBoard({
     })
   }
 
+  const [merging, setMerging] = React.useState(false)
+
   async function mergeAndDownload() {
     if (!items.length) return
-    const mergedPdf = await PDFDocument.create()
-    for (let i = 0; i < items.length; i++) {
-      const file = items[i].file
-      const bytes = await file.arrayBuffer()
-      const pdf = await PDFDocument.load(bytes)
-      const copied = await mergedPdf.copyPages(pdf, pdf.getPageIndices())
-      copied.forEach((p) => mergedPdf.addPage(p))
+    setMerging(true)
+    try {
+      const form = new FormData()
+      // append files in current order
+      items.forEach((it) => form.append('files', it.file, it.file.name))
+
+      const res = await fetch('/api/merge', {
+        method: 'POST',
+        body: form,
+      })
+
+      if (!res.ok) {
+        const txt = await res.text().catch(() => 'Merge failed')
+        try { addToast(`Merge failed: ${txt}`) } catch (err) {}
+        setMerging(false)
+        return
+      }
+
+      const blob = await res.blob()
+      // if backend produced an obviously-empty/invalid PDF, fallback to client-side merge
+      if (!blob || blob.size < 500) {
+        // fallback: do client-side merge using pdf-lib
+        try {
+          const mergedPdf = await PDFDocument.create()
+          for (let i = 0; i < items.length; i++) {
+            const file = items[i].file
+            const bytes = await file.arrayBuffer()
+            const pdf = await PDFDocument.load(bytes)
+            const copied = await mergedPdf.copyPages(pdf, pdf.getPageIndices())
+            copied.forEach((p) => mergedPdf.addPage(p))
+          }
+          const mergedBytes = await mergedPdf.save()
+          const blob2 = new Blob([new Uint8Array(mergedBytes)], { type: 'application/pdf' })
+          const filename = 'merged.pdf'
+          const url = URL.createObjectURL(blob2)
+          const a = document.createElement('a')
+          a.href = url
+          a.download = filename
+          document.body.appendChild(a)
+          a.click()
+          a.remove()
+          URL.revokeObjectURL(url)
+          const outFile = new File([blob2], filename, { type: 'application/pdf' })
+          if (onMergeComplete) onMergeComplete(outFile)
+          try { addToast('Merged locally (backend fallback) — download started') } catch (err) {}
+          return
+        } catch (err) {
+          console.error('Fallback merge failed', err)
+        }
+      }
+
+      const filename = 'merged.pdf'
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = filename
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      URL.revokeObjectURL(url)
+
+      const outFile = new File([blob], filename, { type: 'application/pdf' })
+      if (onMergeComplete) onMergeComplete(outFile)
+      try { addToast('Merged successfully — download started') } catch (err) {}
+    } catch (err: any) {
+      try { addToast('Merge failed') } catch (e) {}
+      console.error('Merge failed', err)
+    } finally {
+      setMerging(false)
     }
-    const mergedBytes = await mergedPdf.save()
-    const blob = new Blob([new Uint8Array(mergedBytes)], { type: 'application/pdf' })
-    const file = new File([blob], 'merged.pdf', { type: 'application/pdf' })
-    // trigger download
-    const url = URL.createObjectURL(file)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'merged.pdf'
-    document.body.appendChild(a)
-    a.click()
-    a.remove()
-    URL.revokeObjectURL(url)
-    if (onMergeComplete) onMergeComplete(file)
-    // success toast
-    try { addToast('Merged successfully — download started') } catch (err) {}
   }
 
   // respond to external merge-trigger event (hero CTA)
@@ -468,7 +517,13 @@ export default function MergeBoard({
                     }
                     try { addToast('Files cleared') } catch (err) {}
                   }}>Clear</button>
-                  <button className={items.length ? 'btn primary' : 'btn ghost'} disabled={!items.length} onClick={() => mergeAndDownload()}>Merge & Download</button>
+                  <button 
+                    className={items.length ? 'btn primary' : 'btn ghost'} 
+                    disabled={!items.length || merging} 
+                    onClick={() => mergeAndDownload()}
+                  >
+                    {merging ? 'Merging...' : 'Merge & Download'}
+                  </button>
                 </div>
               </div>
 
