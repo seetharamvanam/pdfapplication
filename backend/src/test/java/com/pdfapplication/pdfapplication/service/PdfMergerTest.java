@@ -33,7 +33,6 @@ public class PdfMergerTest {
         });
     }
 
-    // Note: To test actual PDF merging, you would need sample PDF files
-    // This test verifies the service is properly wired and handles edge cases
+
 }
 
