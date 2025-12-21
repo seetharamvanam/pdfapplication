@@ -162,15 +162,7 @@ export default function Split() {
         if (zipBlob && zipBlob.size > 100 && (zipBlob.type === 'application/zip' || zipBlob.type === 'application/octet-stream')) {
           try {
             const extractedFiles = await extractFilesFromZip(zipBlob)
-            const res = extractedFiles.map(o => ({ 
-              name: o.name, 
-              url: URL.createObjectURL(o.blob), 
-              size: o.blob.size 
-            }))
-            setResults(res)
-            setStatus({ loading: false, message: `Created ${res.length} file(s)` })
-            setRangeError(null)
-            try { addToast(`Created ${res.length} file(s)`) } catch (err) {}
+            processSplitResults(extractedFiles, false)
             return
           } catch (zipErr) {
             console.warn('Failed to extract ZIP, falling back to client-side', zipErr)
@@ -186,11 +178,7 @@ export default function Split() {
 
     try {
       const outputs = await splitPdfByRanges(file, ranges, (done, total) => setStatus({ loading: true, message: `Processing ${done}/${total}` }))
-      const res = outputs.map(o => ({ name: o.name, url: URL.createObjectURL(o.blob), size: o.blob.size }))
-      setResults(res)
-      setStatus({ loading: false, message: `Created ${res.length} file(s)` })
-      setRangeError(null)
-      try { addToast(`Created ${res.length} file(s) (client-side)`) } catch (err) {}
+      processSplitResults(outputs, true)
     } catch (err: any) {
       console.error('Split failed', err)
       setStatus({ loading: false, message: 'Split failed' })
@@ -229,21 +217,8 @@ export default function Split() {
         renderTasksRef.current.push(renderTask)
         await renderTask.promise
         
-        // Update visual state based on selection
-        const updateCanvasStyle = () => {
-          if (selectedPages.has(pageNumber)) {
-            canvas.classList.add('selected')
-            canvas.style.borderColor = 'var(--accent)'
-            canvas.style.boxShadow = '0 0 0 4px rgba(124, 58, 237, 0.3), 0 8px 24px rgba(124,58,237,0.4)'
-          } else {
-            canvas.classList.remove('selected')
-            canvas.style.borderColor = 'transparent'
-            canvas.style.boxShadow = ''
-          }
-        }
-        
         // Initial style update
-        updateCanvasStyle()
+        applyCanvasSelectedStyle(canvas, selectedPages.has(pageNumber))
         
         canvas.addEventListener('click', (e) => {
           e.preventDefault()
@@ -257,24 +232,7 @@ export default function Split() {
             setSelectedPages(prev => {
               const updated = new Set(prev)
               newRanges.forEach(pg => updated.add(pg))
-              // Update all canvas styles
-              setTimeout(() => {
-                if (thumbsRef.current) {
-                  Array.from(thumbsRef.current.children).forEach((child, idx) => {
-                    const c = child as HTMLCanvasElement
-                    const pgNum = idx + 1
-                    if (updated.has(pgNum)) {
-                      c.classList.add('selected')
-                      c.style.borderColor = 'var(--accent)'
-                      c.style.boxShadow = '0 0 0 4px rgba(124, 58, 237, 0.3), 0 8px 24px rgba(124,58,237,0.4)'
-                    } else {
-                      c.classList.remove('selected')
-                      c.style.borderColor = 'transparent'
-                      c.style.boxShadow = ''
-                    }
-                  })
-                }
-              }, 0)
+              setTimeout(() => updateAllCanvasStyles(updated), 0)
               return updated
             })
             setRangeStart(null)
@@ -285,14 +243,10 @@ export default function Split() {
               const updated = new Set(prev)
               if (updated.has(pageNumber)) {
                 updated.delete(pageNumber)
-                canvas.classList.remove('selected')
-                canvas.style.borderColor = 'transparent'
-                canvas.style.boxShadow = ''
+                applyCanvasSelectedStyle(canvas, false)
               } else {
                 updated.add(pageNumber)
-                canvas.classList.add('selected')
-                canvas.style.borderColor = 'var(--accent)'
-                canvas.style.boxShadow = '0 0 0 4px rgba(124, 58, 237, 0.3), 0 8px 24px rgba(124,58,237,0.4)'
+                applyCanvasSelectedStyle(canvas, true)
               }
               setTimeout(() => updateRangesFromSelection(), 10)
               return updated
@@ -304,26 +258,14 @@ export default function Split() {
               if (updated.has(pageNumber) && updated.size === 1) {
                 // Deselect if only this one selected
                 updated.delete(pageNumber)
-                canvas.classList.remove('selected')
-                canvas.style.borderColor = 'transparent'
-                canvas.style.boxShadow = ''
+                applyCanvasSelectedStyle(canvas, false)
                 setRangeStart(null)
               } else {
                 // Select this page
                 updated.clear()
                 updated.add(pageNumber)
-                // Update all canvas styles
-                if (thumbsRef.current) {
-                  Array.from(thumbsRef.current.children).forEach((child) => {
-                    const c = child as HTMLCanvasElement
-                    c.classList.remove('selected')
-                    c.style.borderColor = 'transparent'
-                    c.style.boxShadow = ''
-                  })
-                }
-                canvas.classList.add('selected')
-                canvas.style.borderColor = 'var(--accent)'
-                canvas.style.boxShadow = '0 0 0 4px rgba(124, 58, 237, 0.3), 0 8px 24px rgba(124,58,237,0.4)'
+                updateAllCanvasStyles(new Set())
+                applyCanvasSelectedStyle(canvas, true)
                 setRangeStart(pageNumber)
               }
               setTimeout(() => updateRangesFromSelection(), 10)
@@ -347,6 +289,19 @@ export default function Split() {
     }
   }
 
+  // Helper function to process split results
+  function processSplitResults(outputs: { name: string; blob: Blob }[], isClientSide: boolean) {
+    const res = outputs.map(o => ({ 
+      name: o.name, 
+      url: URL.createObjectURL(o.blob), 
+      size: o.blob.size 
+    }))
+    setResults(res)
+    setStatus({ loading: false, message: `Created ${res.length} file(s)` })
+    setRangeError(null)
+    try { addToast(`Created ${res.length} file(s)${isClientSide ? ' (client-side)' : ''}`) } catch (err) {}
+  }
+
   async function splitToPages() {
     if (!file || !numPages) return
     setStatus({ loading: true, message: 'Splitting to pages...' })
@@ -365,15 +320,7 @@ export default function Split() {
         if (zipBlob && zipBlob.size > 100 && (zipBlob.type === 'application/zip' || zipBlob.type === 'application/octet-stream')) {
           try {
             const extractedFiles = await extractFilesFromZip(zipBlob)
-            const res = extractedFiles.map(o => ({ 
-              name: o.name, 
-              url: URL.createObjectURL(o.blob), 
-              size: o.blob.size 
-            }))
-            setResults(res)
-            setStatus({ loading: false, message: `Created ${res.length} file(s)` })
-            setRangeError(null)
-            try { addToast(`Created ${res.length} file(s)`) } catch (err) {}
+            processSplitResults(extractedFiles, false)
             return
           } catch (zipErr) {
             console.warn('Failed to extract ZIP, falling back to client-side', zipErr)
@@ -390,11 +337,7 @@ export default function Split() {
     try {
       const ranges = Array.from({ length: numPages }, (_, i) => ({ start: i + 1, end: i + 1 }))
       const outputs = await splitPdfByRanges(file, ranges, (done, total) => setStatus({ loading: true, message: `Processing ${done}/${total}` }))
-      const res = outputs.map(o => ({ name: o.name, url: URL.createObjectURL(o.blob), size: o.blob.size }))
-      setResults(res)
-      setStatus({ loading: false, message: `Created ${res.length} file(s)` })
-      setRangeError(null)
-      try { addToast(`Created ${res.length} file(s) (client-side)`) } catch (err) {}
+      processSplitResults(outputs, true)
     } catch (err: any) {
       console.error('Split failed', err)
       setStatus({ loading: false, message: 'Split failed' })
@@ -414,6 +357,29 @@ export default function Split() {
   function clearResults() {
     results.forEach(r => URL.revokeObjectURL(r.url))
     setResults([])
+  }
+
+  // Helper function to apply selected style to a canvas
+  function applyCanvasSelectedStyle(canvas: HTMLCanvasElement, isSelected: boolean) {
+    if (isSelected) {
+      canvas.classList.add('selected')
+      canvas.style.borderColor = 'var(--accent)'
+      canvas.style.boxShadow = '0 0 0 4px rgba(124, 58, 237, 0.3), 0 8px 24px rgba(124,58,237,0.4)'
+    } else {
+      canvas.classList.remove('selected')
+      canvas.style.borderColor = 'transparent'
+      canvas.style.boxShadow = ''
+    }
+  }
+
+  // Helper function to update all canvas styles based on selected pages
+  function updateAllCanvasStyles(selectedSet: Set<number>) {
+    if (!thumbsRef.current) return
+    Array.from(thumbsRef.current.children).forEach((child, idx) => {
+      const c = child as HTMLCanvasElement
+      const pgNum = idx + 1
+      applyCanvasSelectedStyle(c, selectedSet.has(pgNum))
+    })
   }
 
   function updateRangesFromSelection() {
@@ -448,15 +414,7 @@ export default function Split() {
     setParsedRanges([])
     setRangesText('')
     setRangeStart(null)
-    // Clear canvas styles
-    if (thumbsRef.current) {
-      Array.from(thumbsRef.current.children).forEach((child) => {
-        const c = child as HTMLCanvasElement
-        c.classList.remove('selected')
-        c.style.borderColor = 'transparent'
-        c.style.boxShadow = ''
-      })
-    }
+    updateAllCanvasStyles(new Set())
   }
 
   return (
@@ -608,12 +566,25 @@ export default function Split() {
                         try {
                           const ranges = parseRanges(value, numPages)
                           setParsedRanges(ranges)
+                          // Update visual selection
+                          const newSelected = new Set<number>()
+                          ranges.forEach(r => {
+                            for (let pg = r.start; pg <= r.end; pg++) {
+                              newSelected.add(pg)
+                            }
+                          })
+                          setSelectedPages(newSelected)
+                          setTimeout(() => updateAllCanvasStyles(newSelected), 0)
                         } catch (err: any) {
                           setRangeError(err.message)
                           setParsedRanges([])
+                          setSelectedPages(new Set())
+                          updateAllCanvasStyles(new Set())
                         }
                       } else {
                         setParsedRanges([])
+                        setSelectedPages(new Set())
+                        updateAllCanvasStyles(new Set())
                       }
                     }} 
                     style={{ width: '100%' }}
