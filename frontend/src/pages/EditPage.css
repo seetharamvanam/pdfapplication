@@ -1,0 +1,203 @@
+.edit-page {
+  padding: 32px 16px 40px;
+}
+
+@media (min-width: 960px) {
+  .edit-page {
+    padding: 40px 32px 48px;
+  }
+}
+
+.edit-page--focused {
+  padding: 16px 8px 24px;
+}
+
+.edit-header {
+  display: grid;
+  grid-template-columns: minmax(0, 2.1fr) minmax(260px, 1.1fr);
+  gap: 24px;
+  align-items: stretch;
+  margin: 0 auto 24px;
+  max-width: 1120px;
+}
+
+@media (max-width: 880px) {
+  .edit-header {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.edit-header-main h1 {
+  font-size: 1.9rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin: 0 0 8px;
+}
+
+.edit-subtitle {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+
+.edit-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-top: 14px;
+}
+
+.edit-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.edit-meta span {
+  padding: 4px 8px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.edit-header-card .icon {
+  margin-bottom: 8px;
+}
+
+.edit-header-card h3 {
+  margin-bottom: 4px;
+}
+
+.edit-header-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.edit-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+  gap: 20px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.edit-page--focused .edit-layout {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 100%;
+}
+
+@media (max-width: 960px) {
+  .edit-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.edit-sidebar {
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  padding: 14px 14px 16px;
+}
+
+.edit-sidebar h2 {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+}
+
+.edit-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.edit-steps li strong {
+  display: block;
+  margin-bottom: 2px;
+}
+
+.edit-steps li span {
+  color: #6b7280;
+}
+
+.edit-tip h3 {
+  margin: 4px 0 6px;
+  font-size: 0.95rem;
+}
+
+.edit-tip ul {
+  list-style: disc;
+  padding-left: 18px;
+  margin: 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.edit-main {
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  padding: 12px;
+  box-shadow: 0 8px 26px rgba(15, 23, 42, 0.06);
+}
+
+.edit-page--focused .edit-main {
+  max-width: 1320px;
+  margin: 0 auto;
+  height: calc(100vh - 130px);
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-page--focused .edit-main .edit-board {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.edit-empty {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.edit-empty h2 {
+  margin: 0 0 6px;
+  font-size: 1.25rem;
+}
+
+.edit-empty p {
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+  color: #6b7280;
+}
+
+.edit-empty-actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+

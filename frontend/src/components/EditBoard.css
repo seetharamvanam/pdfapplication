@@ -1,0 +1,261 @@
+/* Basic layout for the editor */
+.edit-board {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #f9fafb;
+  padding: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+.eb-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.eb-left, .eb-center, .eb-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.eb-filename {
+  font-weight: 600;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eb-group {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.eb-label {
+  font-size: 13px;
+  color: #374151;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.eb-page, .eb-scale {
+  font-weight: 600;
+}
+
+.eb-canvas-wrap {
+  position: relative;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.eb-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+}
+
+.eb-overlay {
+  position: absolute;
+  inset: 0;
+  cursor: crosshair;
+}
+
+.eb-text {
+  position: absolute;
+  min-width: 60px;
+  min-height: 24px;
+  padding: 2px 4px;
+  background: rgba(255,255,255,0.6);
+  border: 1px dashed transparent;
+  border-radius: 3px;
+  user-select: text;
+  cursor: move;
+  line-height: 1.2;
+}
+
+.eb-text.selected {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.2);
+}
+
+.eb-stroke {
+  position: absolute;
+  inset: 0;
+}
+
+.eb-stroke.selected path {
+  filter: drop-shadow(0 0 4px rgba(37,99,235,0.4));
+}
+
+.eb-image {
+  position: absolute;
+  object-fit: contain;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.18);
+  cursor: move;
+}
+
+.eb-image.selected {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.35);
+}
+
+.eb-error {
+  padding: 10px 12px;
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecdd3;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+.eb-pages {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 8px;
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+}
+
+.eb-page-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.eb-page-label {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+.edit-shell {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  background: #fff;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+}
+
+.edit-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.edit-toolbar .pill {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.edit-toolbar .pill.active {
+  background: #111827;
+  color: #fff;
+  border-color: #111827;
+}
+
+.edit-toolbar .pill:hover {
+  border-color: #d1d5db;
+}
+
+.edit-viewer {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.edit-thumbs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 640px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.edit-thumb {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 6px;
+  cursor: pointer;
+  background: #fff;
+}
+
+.edit-thumb.active {
+  outline: 2px solid #4f46e5;
+  outline-offset: 1px;
+}
+
+.edit-thumb img {
+  display: block;
+  max-width: 100%;
+}
+
+.edit-canvas-wrap {
+  position: relative;
+  max-width: 100%;
+  overflow: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #f9fafb;
+}
+
+.edit-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.edit-text {
+  position: absolute;
+  min-width: 90px;
+  min-height: 34px;
+  padding: 6px 8px;
+  border: 1px dashed #9ca3af;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #111827;
+  resize: both;
+  overflow: hidden;
+}
+
+.edit-text textarea {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  resize: none;
+}
+
+.edit-drawing {
+  position: absolute;
+  pointer-events: none;
+}
+
+.edit-status {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
