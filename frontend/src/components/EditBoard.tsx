@@ -92,13 +92,12 @@ export default function EditBoard({ file, onExport }: { file: File; onExport?: (
   const [penSize, setPenSize] = useState(2)
   const [fontFamily, setFontFamily] = useState<'sans' | 'serif'>('sans')
   const [fileBytes, setFileBytes] = useState<ArrayBuffer | null>(null)
-  const [objectUrl, setObjectUrl] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const historyRef = useRef<{ past: Item[][]; future: Item[][] }>({ past: [], future: [] })
   const selectedIdRef = useRef<string | null>(null)
   const [findTerm, setFindTerm] = useState('')
-  const [findIndex, setFindIndex] = useState(0)
+  const [, setFindIndex] = useState(0)
   const imageInputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
@@ -114,7 +113,6 @@ export default function EditBoard({ file, onExport }: { file: File; onExport?: (
         if (cancelled) return
         setFileBytes(buf)
         currentUrl = URL.createObjectURL(new Blob([buf], { type: 'application/pdf' }))
-        setObjectUrl(currentUrl)
         const loadingTask = pdfjs.getDocument({ url: currentUrl })
         const doc = await loadingTask.promise
         if (cancelled) return
@@ -188,14 +186,6 @@ export default function EditBoard({ file, onExport }: { file: File; onExport?: (
     historyRef.current.past.push(items)
     historyRef.current.future = []
     setItems(next)
-  }
-
-  function goPrevPage() {
-    setPage((p) => (p > 1 ? p - 1 : p))
-  }
-
-  function goNextPage() {
-    setPage((p) => (p < numPages ? p + 1 : p))
   }
 
   function undo() {
@@ -533,7 +523,7 @@ export default function EditBoard({ file, onExport }: { file: File; onExport?: (
         }
       }
       const pdfBytes = await newDoc.save()
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' })
+      const blob = new Blob([pdfBytes.buffer as ArrayBuffer], { type: 'application/pdf' })
       const outFile = new File([blob], `edited-${file.name}`, { type: 'application/pdf' })
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')

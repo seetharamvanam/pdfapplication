@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import './Toast.css'
 
 export default function Toast({ id, message, onClose }: { id: string; message: string; onClose: (id: string) => void }) {
@@ -10,7 +10,9 @@ export default function Toast({ id, message, onClose }: { id: string; message: s
   return (
     <div className="toast" role="status" aria-live="polite">
       {message}
-      <button className="toast-close" onClick={() => onClose(id)} aria-label="Close">✕</button>
+      <button className="toast-close" onClick={() => onClose(id)} aria-label="Close">
+        ✕
+      </button>
     </div>
   )
 }

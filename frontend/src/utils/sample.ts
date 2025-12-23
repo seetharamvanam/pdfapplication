@@ -13,7 +13,7 @@ export async function createSamplePdf(name = 'sample.pdf', text = 'This is a sam
     color: rgb(0, 0, 0),
   })
   const bytes = await pdfDoc.save()
-  const blob = new Blob([bytes], { type: 'application/pdf' })
+  const blob = new Blob([bytes.buffer as ArrayBuffer], { type: 'application/pdf' })
   try {
     return new File([blob], name, { type: 'application/pdf' })
   } catch (e) {
