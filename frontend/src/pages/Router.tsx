@@ -3,7 +3,6 @@ import Merge from './Merge'
 import Split from './Split'
 import Compress from './Compress'
 import Convert from './Convert'
-import Edit from './Edit'
 import Secure from './Secure'
 import View from './View'
 import { useEffect, useState } from 'react'
@@ -16,7 +15,6 @@ const ROUTES: Record<string, React.FC> = {
   '#split': Split,
   '#compress': Compress,
   '#convert': Convert,
-  '#edit': Edit,
   '#secure': Secure,
   '#view': View,
 }

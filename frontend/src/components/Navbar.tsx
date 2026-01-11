@@ -9,7 +9,6 @@ const LINKS = [
   { id: 'split', label: 'Split', href: '#split' },
   { id: 'compress', label: 'Compress', href: '#compress' },
   { id: 'convert', label: 'Convert', href: '#convert' },
-  { id: 'edit', label: 'Edit', href: '#edit' },
   { id: 'secure', label: 'Secure', href: '#secure' },
   { id: 'view', label: 'View', href: '#view' },
 ]
