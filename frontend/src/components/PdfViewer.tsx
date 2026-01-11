@@ -68,6 +68,11 @@ export default function PdfViewer({ src, filename }: Props) {
         const ctx = canvas.getContext('2d')
         canvas.width = Math.floor(viewport.width)
         canvas.height = Math.floor(viewport.height)
+
+        // Fill canvas with white background for PDF visibility
+        ctx!.fillStyle = '#ffffff'
+        ctx!.fillRect(0, 0, canvas.width, canvas.height)
+
         const renderContext = {
           canvasContext: ctx!,
           viewport,

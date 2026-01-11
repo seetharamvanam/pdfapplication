@@ -167,6 +167,11 @@ export default function MergeBoard({
           canvas.width = Math.round(viewport.width)
           canvas.height = Math.round(viewport.height)
           const ctx = canvas.getContext('2d')!
+
+          // Fill canvas with white background for PDF visibility
+          ctx.fillStyle = '#ffffff'
+          ctx.fillRect(0, 0, canvas.width, canvas.height)
+
           const renderTask = page.render({ canvasContext: ctx, viewport })
           await renderTask.promise
           const data = canvas.toDataURL('image/png')
@@ -579,6 +584,11 @@ function MergePdfPreview({ file, onClose }: { file: File; onClose: () => void })
           canvas.width = Math.round(viewport.width)
           canvas.height = Math.round(viewport.height)
           const ctx = canvas.getContext('2d')!
+
+          // Fill canvas with white background for PDF visibility
+          ctx.fillStyle = '#ffffff'
+          ctx.fillRect(0, 0, canvas.width, canvas.height)
+
           const renderTask = page.render({ canvasContext: ctx, viewport })
           await renderTask.promise
           if (!mounted || abortRef.current) break

@@ -3,7 +3,7 @@ import './Home.css'
 import './ops.css'
 import Button from '../components/ui/Button'
 import Card from '../components/ui/Card'
-import { IconPdf, IconMerge, IconSplit, IconCompress, IconConvert, IconEdit, IconSecure } from '../components/icons' 
+import { IconPdf, IconMerge, IconSplit, IconCompress, IconConvert, IconSecure } from '../components/icons' 
 
 export default function Home() {
   const [mounted, setMounted] = useState(false)
@@ -16,7 +16,7 @@ export default function Home() {
           <div className="hero-copy">
             <h1 className="fade-up">All PDF Tools — Completely Free</h1>
             <p className="lead fade-up">
-              Merge, split, compress, convert, rotate and edit PDF files quickly and securely — no signup required.
+              Merge, split, compress, convert, and rotate PDF files quickly and securely — no signup required.
             </p>
 
             <div className="hero-ctas fade-up">
@@ -84,12 +84,6 @@ export default function Home() {
             <div className="icon"><IconConvert /></div>
             <h3>Convert</h3>
             <p>Convert PDF to Word, PNG, JPG or create PDFs from other formats.</p>
-          </Card>
-
-          <Card>
-            <div className="icon"><IconEdit /></div>
-            <h3>Edit & Sign</h3>
-            <p>Edit text, add annotations, or sign documents electronically.</p>
           </Card>
 
           <Card>
