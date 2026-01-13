@@ -1,5 +1,6 @@
 import './App.css'
 import { useState, useEffect } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
 import Router from './pages/Router'
@@ -34,6 +35,7 @@ function App() {
           <Router />
         </main>
       </div>
+      <Analytics />
     </div>
   )
 }
