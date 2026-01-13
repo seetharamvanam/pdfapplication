@@ -244,11 +244,11 @@ export default function PdfEditorCanvas({
     ctx.clearRect(0, 0, editCanvas.width, editCanvas.height)
     
     drawingActions.forEach((action) => {
-      drawAction(ctx, action, false)
+      drawAction(ctx, action)
     })
     
     if (currentAction) {
-      drawAction(ctx, currentAction, false)
+      drawAction(ctx, currentAction)
     }
   }, [drawingActions, currentAction, drawAction])
 
