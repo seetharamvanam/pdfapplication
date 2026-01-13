@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Button from '../components/ui/Button'
 import Card from '../components/ui/Card'
 import PdfViewer from '../components/PdfViewer'
-import { IconSplit } from '../components/icons'
+import './PageLayout.css'
 import './ops.css'
 import { useToast } from '../components/ToastProvider'
 
@@ -422,8 +422,14 @@ export default function Split() {
     updateAllCanvasStyles(new Set())
   }
 
+  function formatFileSize(bytes: number): string {
+    if (bytes < 1024) return bytes + ' B'
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB'
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB'
+  }
+
   return (
-    <main className="page page-ops">
+    <div className="page-layout">
       {previewOpen && previewUrl && (
         <div className="pdf-preview-overlay" role="dialog" aria-label="PDF preview">
           <div className="pdf-preview-backdrop" onClick={() => { setPreviewOpen(false); setTimeout(()=>{ if (previewUrl) { URL.revokeObjectURL(previewUrl); setPreviewUrl(null) } }, 80) }} />
@@ -441,113 +447,92 @@ export default function Split() {
           </div>
         </div>
       )}
-      <section className="ops-hero">
-        <div className="ops-hero-inner">
-          <div>
-            <h1>Split & Extract</h1>
-            <p className="sub">Split a large PDF into smaller files or extract specific pages. Choose page ranges or split into individual pages.</p>
-            
-            <div style={{ marginTop: 12 }}>
-              {file ? null : (
-                <>
-                  <Button variant="primary" onClick={(e) => { e.preventDefault(); (document.getElementById('split-upload') as HTMLInputElement | null)?.click() }}>
-                    Upload PDF to split
-                  </Button>
-                  <input id="split-upload" className="sr-only" type="file" accept="application/pdf" onChange={onFileChange} />
-                </>
-              )}
-            </div>
 
-            <div style={{ marginTop: 12 }}>
-              <div className="merge-helper">
-                {file 
-                  ? 'Specify page ranges to extract, then click Split to download. Each range creates a separate PDF file.' 
-                  : 'Upload or drag a PDF file below, then specify which pages to extract.'}
+      <div className="page-header">
+        <div>
+          <h1 className="page-title">Split PDF</h1>
+          <p className="page-subtitle">
+            Split a large PDF into smaller files or extract specific pages. Choose page ranges or split into individual pages.
+          </p>
+        </div>
+        <div className="page-actions">
+          {!file ? (
+            <Button
+              variant="primary"
+              onClick={() => (document.getElementById('split-upload') as HTMLInputElement | null)?.click()}
+            >
+              Upload PDF
+            </Button>
+          ) : (
+            <Button variant="ghost" onClick={() => { 
+              setFile(null); 
+              setNumPages(null); 
+              clearResults(); 
+              setRangesText('');
+              setRangeError(null);
+              setParsedRanges([]);
+              setStatus({ loading: false });
+            }}>
+              Clear
+            </Button>
+          )}
+        </div>
+      </div>
+
+      {!file ? (
+        <Card className="upload-zone">
+          <div className="upload-content">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="17 8 12 3 7 8" />
+              <line x1="12" y1="3" x2="12" y2="15" />
+            </svg>
+            <h3>Upload a PDF to Split</h3>
+            <p>Drag and drop your PDF here, or click to browse</p>
+            <Button variant="secondary" onClick={() => (document.getElementById('split-upload') as HTMLInputElement | null)?.click()}>
+              Select File
+            </Button>
+          </div>
+        </Card>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+          <Card className="card-padding">
+            <div style={{ marginBottom: 'var(--space-4)' }}>
+              <strong>{file.name}</strong>
+              <div style={{ color: 'var(--text-tertiary)', fontSize: 'var(--font-size-sm)', marginTop: 'var(--space-1)' }}>
+                {formatFileSize(file.size)} • {numPages || 0} page{numPages !== 1 ? 's' : ''}
               </div>
+            </div>
+          </Card>
 
-              {file && (
-                <div style={{ marginTop: 12 }}>
-                  <div className="stepper">
-                    <div className="step done">
-                      <div className="step-icon">✓</div>
-                      <div className="step-label">Upload</div>
-                    </div>
-                    <div className={`step ${parsedRanges.length > 0 || results.length > 0 ? 'active' : ''}`}>
-                      <div className="step-icon">{parsedRanges.length > 0 || results.length > 0 ? '✓' : '2'}</div>
-                      <div className="step-label">Select Pages</div>
-                    </div>
-                    <div className={`step ${results.length > 0 ? 'done' : ''}`}>
-                      <div className="step-icon">{results.length > 0 ? '✓' : '3'}</div>
-                      <div className="step-label">Download</div>
-                    </div>
-                    {file && (
-                      <div className="status-pill">
-                        {numPages || 0} page{numPages !== 1 ? 's' : ''}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
+          <div className="stepper">
+            <div className="step done">
+              <div className="step-icon">✓</div>
+              <div className="step-label">Upload</div>
+            </div>
+            <div className={`step ${parsedRanges.length > 0 || results.length > 0 ? 'active' : ''}`}>
+              <div className="step-icon">{parsedRanges.length > 0 || results.length > 0 ? '✓' : '2'}</div>
+              <div className="step-label">Select Pages</div>
+            </div>
+            <div className={`step ${results.length > 0 ? 'done' : ''}`}>
+              <div className="step-icon">{results.length > 0 ? '✓' : '3'}</div>
+              <div className="step-label">Download</div>
+            </div>
+          </div>
 
-              {!file && (
-                <div style={{ marginTop: 12 }}>
-                  <div className="dropzone" onDrop={(e) => { e.preventDefault(); const f = e.dataTransfer?.files?.[0]; if (f) onFileChange(f); }} onDragOver={(e) => e.preventDefault()}>
-                    <div className="drop-hint">
-                      <p className="h1">Drag & drop a PDF here</p>
-                      <p className="muted">Or click to upload and then select pages to split</p>
-                      <input id="split-upload-drop" aria-label="Upload PDF to split" className="upload-input" type="file" accept="application/pdf" onChange={onFileChange} />
-                    </div>
-                  </div>
-                </div>
-              )}
+          <input 
+            id="split-upload" 
+            className="sr-only" 
+            type="file" 
+            accept="application/pdf" 
+            onChange={onFileChange} 
+          />
 
-              {file && (
-                <div style={{ marginTop: 12 }}>
-                  <div className="file-info-card" style={{ 
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    gap: 12
-                  }}>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontWeight: 600, fontSize: '0.95rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {file.name}
-                      </div>
-                      <div style={{ display: 'flex', gap: 16, marginTop: 4 }}>
-                        <div className="muted" style={{ fontSize: '0.85rem' }}>
-                          {(file.size / 1024).toFixed(1)} KB
-                        </div>
-                        <div className="muted" style={{ fontSize: '0.85rem' }}>
-                          {numPages || 0} page{numPages !== 1 ? 's' : ''}
-                        </div>
-                      </div>
-                    </div>
-                    <div style={{ display: 'flex', gap: 6 }}>
-                      <label htmlFor="split-upload-replace">
-                        <button className="btn small ghost" onClick={(e) => { e.stopPropagation(); }} aria-label="Replace file">
-                          Replace
-                        </button>
-                      </label>
-                      <input id="split-upload-replace" className="sr-only" type="file" accept="application/pdf" onChange={onFileChange} />
-                      <button 
-                        className="btn small ghost" 
-                        onClick={(e) => { 
-                          e.stopPropagation(); 
-                          setFile(null); 
-                          setNumPages(null); 
-                          clearResults(); 
-                          setRangesText('');
-                          setRangeError(null);
-                          setParsedRanges([]);
-                        }} 
-                        aria-label="Remove file"
-                      >
-                        Remove
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
+          <Card className="card-padding">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+              <div className="merge-helper">
+                Specify page ranges to extract, then click Split to download. Each range creates a separate PDF file.
+              </div>
 
               {file && (
                 <div style={{ marginTop: 12 }}>
@@ -827,54 +812,22 @@ export default function Split() {
                 </div>
               )}
             </div>
-
-            <div className="ops-details">
-              <h3>How splitting works</h3>
-              <p className="sub">Specify page ranges using commas to separate them. Each range creates a separate PDF file.</p>
-              <ul className="ops-features">
-                <li><strong>Single pages:</strong> Enter <code>3,5,7</code> to extract pages 3, 5, and 7</li>
-                <li><strong>Ranges:</strong> Enter <code>1-5</code> to extract pages 1 through 5</li>
-                <li><strong>Mixed:</strong> Enter <code>1-3,5,8-10</code> to combine ranges and single pages</li>
-                <li><strong>Quick split:</strong> Use "Split to single pages" to create one PDF per page</li>
-              </ul>
-            </div>
-
-            <div className="examples">
-              <div className="example-card">
-                <h4>Extract chapters</h4>
-                <p className="sub">Split a large document into individual chapters or sections.</p>
-                <div className="example-actions">
-                  <button className="btn ghost" onClick={(e)=>{ e.preventDefault(); import('../utils/sample').then(m=>m.createSamplePdf('chapters.pdf','Chapter extraction sample')).then(f=>{ try{ window.dispatchEvent(new CustomEvent('pdf-upload',{detail:f})) }catch(err){} }) }}>Try sample</button>
-                </div>
-              </div>
-
-              <div className="example-card">
-                <h4>Page selection</h4>
-                <p className="sub">Extract specific pages from a multi-page document.</p>
-                <div className="example-actions">
-                  <button className="btn ghost" onClick={(e)=>{ e.preventDefault(); import('../utils/sample').then(m=>m.createSamplePdf('pages.pdf','Page selection sample')).then(f=>{ try{ window.dispatchEvent(new CustomEvent('pdf-upload',{detail:f})) }catch(err){} }) }}>Try sample</button>
-                </div>
-              </div>
-
-              <div className="example-card">
-                <h4>Batch split</h4>
-                <p className="sub">Split a large PDF into multiple smaller files for easier sharing.</p>
-                <div className="example-actions">
-                  <button className="btn ghost" onClick={(e)=>{ e.preventDefault(); import('../utils/sample').then(m=>m.createSamplePdf('batch.pdf','Batch split sample')).then(f=>{ try{ window.dispatchEvent(new CustomEvent('pdf-upload',{detail:f})) }catch(err){} }) }}>Try sample</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div aria-hidden>
-            <Card>
-              <div className="icon"><IconSplit /></div>
-              <h3>Extract pages</h3>
-              <p>Upload a PDF and specify page ranges to extract. You can split by single pages or ranges to create precise outputs.</p>
-            </Card>
-          </div>
+          </Card>
         </div>
-      </section>
-    </main>
+      )}
+
+      <div className="page-info-section">
+        <Card>
+          <h3>How Splitting Works</h3>
+          <ul className="feature-list">
+            <li><strong>Single pages:</strong> Enter <code>3,5,7</code> to extract pages 3, 5, and 7</li>
+            <li><strong>Ranges:</strong> Enter <code>1-5</code> to extract pages 1 through 5</li>
+            <li><strong>Mixed:</strong> Enter <code>1-3,5,8-10</code> to combine ranges and single pages</li>
+            <li><strong>Quick split:</strong> Use "Split to single pages" to create one PDF per page</li>
+            <li><strong>Privacy:</strong> All processing happens in your browser — files never leave your device</li>
+          </ul>
+        </Card>
+      </div>
+    </div>
   )
 }

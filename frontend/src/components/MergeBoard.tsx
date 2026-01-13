@@ -313,71 +313,30 @@ export default function MergeBoard({
     if (!items.length) return
     setMerging(true)
     try {
-      const form = new FormData()
-      // append files in current order
-      items.forEach((it) => form.append('files', it.file, it.file.name))
-
-      const res = await fetch('/api/merge', {
-        method: 'POST',
-        body: form,
-      })
-
-      if (!res.ok) {
-        const txt = await res.text().catch(() => 'Merge failed')
-        try { addToast(`Merge failed: ${txt}`) } catch (err) {}
-        setMerging(false)
-        return
-      }
-
-      const blob = await res.blob()
-      // if backend produced an obviously-empty/invalid PDF, fallback to client-side merge
-      if (!blob || blob.size < 500) {
-        // fallback: do client-side merge using pdf-lib
-        try {
-          const mergedPdf = await PDFDocument.create()
-          for (let i = 0; i < items.length; i++) {
-            const file = items[i].file
-            const bytes = await file.arrayBuffer()
-            const pdf = await PDFDocument.load(bytes)
-            const copied = await mergedPdf.copyPages(pdf, pdf.getPageIndices())
-            copied.forEach((p) => mergedPdf.addPage(p))
-          }
-          const mergedBytes = await mergedPdf.save()
-          const blob2 = new Blob([new Uint8Array(mergedBytes)], { type: 'application/pdf' })
-          const filename = 'merged.pdf'
-          const url = URL.createObjectURL(blob2)
-          const a = document.createElement('a')
-          a.href = url
-          a.download = filename
-          document.body.appendChild(a)
-          a.click()
-          a.remove()
-          URL.revokeObjectURL(url)
-          const outFile = new File([blob2], filename, { type: 'application/pdf' })
-          if (onMergeComplete) onMergeComplete(outFile)
-          try { addToast('Merged locally (backend fallback) — download started') } catch (err) {}
-          return
-        } catch (err) {
-          console.error('Fallback merge failed', err)
+      // Client-side merge using pdf-lib
+      const files = items.map(it => it.file)
+      const { mergePdfs, downloadBlob } = await import('../utils/pdfUtils')
+      
+      const blob = await mergePdfs(files, (current, total) => {
+        // Update progress if needed
+        if (onMergeComplete) {
+          // Could emit progress events here
         }
-      }
-
+      })
+      
       const filename = 'merged.pdf'
       const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = filename
-      document.body.appendChild(a)
-      a.click()
-      a.remove()
-      URL.revokeObjectURL(url)
-
+      
+      // Download the merged PDF
+      downloadBlob(blob, filename)
+      
       const outFile = new File([blob], filename, { type: 'application/pdf' })
       if (onMergeComplete) onMergeComplete(outFile)
       try { addToast('Merged successfully — download started') } catch (err) {}
     } catch (err: any) {
-      try { addToast('Merge failed') } catch (e) {}
       console.error('Merge failed', err)
+      const errorMsg = err?.message || 'Merge failed'
+      try { addToast(errorMsg) } catch (e) {}
     } finally {
       setMerging(false)
     }

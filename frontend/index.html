@@ -2,8 +2,55 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta Tags -->
+    <title>PDF Suite - Enterprise-Grade PDF Processing Tools | Secure, Fast & Private</title>
+    <meta name="title" content="PDF Suite - Enterprise-Grade PDF Processing Tools | Secure, Fast & Private" />
+    <meta name="description" content="Transform your documents with enterprise-grade PDF tools. Merge, split, compress, convert, and secure PDFs with military-level encryption. 100% private processing in your browser." />
+    <meta name="keywords" content="PDF tools, merge PDF, split PDF, compress PDF, convert PDF, secure PDF, document processing, enterprise PDF, online PDF editor, PDF utilities" />
+    <meta name="author" content="PDF Suite" />
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="language" content="English" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://pdf-suite.com/" />
+    <meta property="og:title" content="PDF Suite - Enterprise-Grade PDF Processing Tools" />
+    <meta property="og:description" content="Transform your documents with enterprise-grade PDF tools. Secure, fast, and completely private processing in your browser." />
+    <meta property="og:image" content="https://pdf-suite.com/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="PDF Suite" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://pdf-suite.com/" />
+    <meta property="twitter:title" content="PDF Suite - Enterprise-Grade PDF Processing Tools" />
+    <meta property="twitter:description" content="Transform your documents with enterprise-grade PDF tools. Secure, fast, and completely private processing in your browser." />
+    <meta property="twitter:image" content="https://pdf-suite.com/twitter-image.jpg" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://pdf-suite.com/" />
+
+    <!-- Favicon and Icons -->
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+    <!-- Fonts with optimization -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+
+    <!-- Theme and Performance Script -->
     <script>
       // Immediately apply saved theme or time-of-day preference to avoid FOUC
       (function(){
@@ -19,12 +66,116 @@
           var theme = isDay ? 'light' : 'dark';
           document.documentElement.dataset.theme = theme;
         }catch(e){}
+
+        // Add performance observer
+        if ('PerformanceObserver' in window) {
+          try {
+            new PerformanceObserver(function(list) {
+              for (var entry of list.getEntries()) {
+                if (entry.entryType === 'largest-contentful-paint') {
+                  // Log LCP for monitoring
+                  console.log('LCP:', entry.startTime);
+                }
+              }
+            }).observe({entryTypes: ['largest-contentful-paint']});
+          } catch (e) {}
+        }
       })();
     </script>
-    <title>react</title>
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "PDF Suite",
+      "description": "Enterprise-grade PDF processing tools for merging, splitting, compressing, converting, and securing PDF documents.",
+      "url": "https://pdf-suite.com",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "Free PDF processing tools"
+      },
+      "featureList": [
+        "PDF Merging",
+        "PDF Splitting",
+        "PDF Compression",
+        "PDF Conversion",
+        "PDF Security",
+        "PDF Viewing"
+      ],
+      "author": {
+        "@type": "Organization",
+        "name": "PDF Suite"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "PDF Suite"
+      },
+      "potentialAction": {
+        "@type": "UseAction",
+        "target": "https://pdf-suite.com",
+        "description": "Process PDF documents online"
+      }
+    }
+    </script>
+
+    <!-- Additional Meta Tags -->
+    <meta name="theme-color" content="#003366" />
+    <meta name="msapplication-TileColor" content="#003366" />
+    <meta name="msapplication-config" content="/browserconfig.xml" />
+
+    <!-- Security Headers -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+
+    <!-- Performance and Caching -->
+    <meta http-equiv="Cache-Control" content="public, max-age=31536000" />
+    <link rel="dns-prefetch" href="//api.example.com" />
   </head>
   <body>
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-blue-600 focus:text-white focus:rounded">
+      Skip to main content
+    </a>
+
     <div id="root"></div>
+
+    <!-- Structured Data for Breadcrumbs -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://pdf-suite.com"
+        }
+      ]
+    }
+    </script>
+
+    <!-- Performance monitoring -->
+    <script>
+      // Core Web Vitals monitoring
+      if ('web-vitals' in window) {
+        import('https://unpkg.com/web-vitals@3.1.0/dist/web-vitals.es5.min.js').then(({getCLS, getFID, getFCP, getLCP, getTTFB}) => {
+          getCLS(console.log);
+          getFID(console.log);
+          getFCP(console.log);
+          getLCP(console.log);
+          getTTFB(console.log);
+        });
+      }
+    </script>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

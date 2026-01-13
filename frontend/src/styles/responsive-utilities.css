@@ -1,0 +1,267 @@
+/* Responsive Design Utilities - Mobile-First Approach */
+
+/* Container Queries Support */
+@container (min-width: 640px) {
+  .container-sm\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .container-sm\:flex-row { flex-direction: row; }
+  .container-sm\:text-left { text-align: left; }
+}
+
+@container (min-width: 768px) {
+  .container-md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .container-md\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .container-md\:flex-col { flex-direction: column; }
+}
+
+@container (min-width: 1024px) {
+  .container-lg\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .container-lg\:grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+
+/* Mobile-First Breakpoints */
+@media (max-width: 640px) {
+  /* Mobile Styles */
+  .mobile\:flex-col { flex-direction: column; }
+  .mobile\:text-center { text-align: center; }
+  .mobile\:px-4 { padding-left: 1rem; padding-right: 1rem; }
+  .mobile\:py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+  .mobile\:gap-4 { gap: 1rem; }
+  .mobile\:text-xl { font-size: 1.25rem; }
+  .mobile\:hidden { display: none; }
+
+  /* Stack elements vertically on mobile */
+  .mobile\:stack > * + * {
+    margin-top: 1rem;
+  }
+
+  /* Mobile navigation adjustments */
+  .mobile\:nav-compact .nav-link {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  /* Mobile hero adjustments */
+  .mobile\:hero-compact .hero-title {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+
+  .mobile\:hero-compact .hero-subtitle {
+    font-size: 1.125rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  /* Tablet Styles */
+  .tablet\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tablet\:flex-row { flex-direction: row; }
+  .tablet\:px-8 { padding-left: 2rem; padding-right: 2rem; }
+  .tablet\:text-left { text-align: left; }
+
+  /* Tablet-specific adjustments */
+  .tablet\:hero-medium .hero-title {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  /* Desktop Styles */
+  .desktop\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .desktop\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .desktop\:px-12 { padding-left: 3rem; padding-right: 3rem; }
+  .desktop\:py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+
+  /* Desktop hover enhancements */
+  .desktop\:hover-lift:hover {
+    transform: translateY(-12px);
+    box-shadow: 0 25px 50px rgba(0, 51, 102, 0.15);
+  }
+
+  /* Desktop parallax effects */
+  .desktop\:parallax {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  /* Remove hover effects on touch devices */
+  .hover-lift:hover,
+  .hover-float:hover,
+  .hover-glow:hover {
+    transform: none;
+    box-shadow: initial;
+  }
+
+  /* Larger touch targets */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Adjust button sizes for touch */
+  .btn {
+    min-height: 48px;
+    padding: 0.75rem 1.5rem;
+  }
+}
+
+/* High DPI Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* Sharper shadows and borders */
+  .retina\:shadow-lg {
+    box-shadow: 0 10px 15px -3px rgba(0, 51, 102, 0.1), 0 4px 6px -2px rgba(0, 51, 102, 0.05);
+  }
+
+  /* Crisp borders */
+  .retina\:border {
+    border-width: 0.5px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .no-print { display: none !important; }
+  .print\:text-black { color: black !important; }
+  .print\:bg-white { background: white !important; }
+  .print\:shadow-none { box-shadow: none !important; }
+
+  /* Ensure readability in print */
+  .print\:readable {
+    color: black !important;
+    background: white !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Orientation Changes */
+@media (orientation: landscape) and (max-height: 500px) {
+  /* Landscape mobile adjustments */
+  .landscape\:compact .hero-title {
+    font-size: 2rem;
+  }
+
+  .landscape\:compact .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .landscape\:hidden {
+    display: none;
+  }
+}
+
+/* Dark Mode Specific Responsive */
+[data-theme="dark"] {
+  @media (max-width: 640px) {
+    .dark\:mobile\:bg-primary { background-color: var(--color-neutral-800); }
+    .dark\:mobile\:text-primary { color: white; }
+  }
+}
+
+/* Focus States for Keyboard Navigation */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+/* Skip Links for Accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 6px;
+  background: var(--color-primary-600);
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  border-radius: 4px;
+  z-index: 1000;
+  transition: top 0.3s;
+}
+
+.skip-link:focus {
+  top: 6px;
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .high-contrast\:border {
+    border: 2px solid;
+  }
+
+  .high-contrast\:text {
+    font-weight: 600;
+  }
+
+  .high-contrast\:bg {
+    background: white;
+    color: black;
+  }
+}
+
+/* Flexible Layout Utilities */
+.flex-mobile {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .flex-mobile {
+    flex-direction: row;
+  }
+}
+
+.grid-responsive {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .grid-responsive {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid-responsive {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Safe Area Support for Modern Devices */
+@supports (padding: max(0px)) {
+  .safe-area {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+    padding-top: max(1rem, env(safe-area-inset-top));
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* Dynamic Viewport Units Support */
+@supports (height: 100dvh) {
+  .full-height {
+    height: 100dvh;
+  }
+}
+
+/* Container Size Variants */
+.container-sm { max-width: 640px; }
+.container-md { max-width: 768px; }
+.container-lg { max-width: 1024px; }
+.container-xl { max-width: 1280px; }
+.container-2xl { max-width: 1536px; }

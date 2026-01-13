@@ -1,0 +1,606 @@
+/* Performance Optimization Styles */
+
+/* GPU Acceleration */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Will-Change Optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+.will-change-scroll {
+  will-change: scroll-position;
+}
+
+/* Remove will-change after animation */
+.will-change-reset {
+  will-change: auto;
+}
+
+/* Optimized Animations */
+.animate-optimized {
+  animation-fill-mode: forwards;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reduced Motion Fallbacks */
+@media (prefers-reduced-motion: reduce) {
+  .animate-optimized {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Font Loading Optimization */
+.font-optimized {
+  font-display: swap;
+  text-rendering: optimizeLegibility;
+}
+
+/* Image Optimization */
+.image-optimized {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* Content Visibility */
+.content-visible {
+  content-visibility: auto;
+  contain-intrinsic-size: 200px;
+}
+
+/* Lazy Loading Styles */
+.lazy-loading {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.lazy-loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Intersection Observer Triggers */
+.intersection-trigger {
+  position: relative;
+}
+
+.intersection-trigger::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+/* Virtual Scrolling Optimization */
+.virtual-scroll {
+  contain: layout style paint;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.virtual-item {
+  will-change: transform;
+  contain: layout style paint;
+}
+
+/* Memory-Efficient Animations */
+.memory-efficient {
+  animation-duration: 0.2s;
+  animation-timing-function: ease-out;
+}
+
+/* Battery-Friendly Animations */
+.battery-friendly {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .battery-friendly {
+    animation: pulse 2s infinite;
+  }
+}
+
+/* Connection-Aware Styles */
+.connection-slow .heavy-animation {
+  animation: none;
+}
+
+.connection-slow .large-image {
+  display: none;
+}
+
+.connection-slow .large-image + .small-image {
+  display: block;
+}
+
+/* Critical CSS Above Fold */
+.critical-css {
+  /* Styles loaded immediately for above-the-fold content */
+}
+
+/* Non-Critical CSS */
+.non-critical-css {
+  /* Styles that can be loaded asynchronously */
+}
+
+/* Resource Hints */
+.resource-hint {
+  /* Placeholder for resource hinting */
+}
+
+/* Optimized Flexbox */
+.flex-optimized {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.flex-optimized > * {
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+/* Optimized Grid */
+.grid-optimized {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.grid-optimized > * {
+  min-width: 0;
+}
+
+/* Container Query Optimization */
+@container (min-width: 400px) {
+  .container-optimized {
+    padding: 1rem;
+  }
+}
+
+@container (min-width: 800px) {
+  .container-optimized {
+    padding: 2rem;
+  }
+}
+
+/* Layout Containment */
+.layout-contained {
+  contain: layout style;
+}
+
+.style-contained {
+  contain: style;
+}
+
+.paint-contained {
+  contain: paint;
+}
+
+.size-contained {
+  contain: size;
+}
+
+.all-contained {
+  contain: layout style paint size;
+}
+
+/* Optimized Shadows */
+.shadow-optimized {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.12));
+}
+
+/* Optimized Borders */
+.border-optimized {
+  border: 1px solid rgba(0, 51, 102, 0.2);
+  border-image: linear-gradient(45deg, rgba(0, 51, 102, 0.2), rgba(255, 102, 0, 0.2)) 1;
+}
+
+/* Efficient Color Transitions */
+.color-efficient {
+  color: var(--text-primary);
+  transition: color 0.15s ease;
+}
+
+/* Memory-Efficient Gradients */
+.gradient-efficient {
+  background: linear-gradient(45deg, var(--color-primary-600), var(--color-accent-500));
+  background-attachment: local;
+}
+
+/* Optimized Typography */
+.text-optimized {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Efficient Hover States */
+.hover-efficient {
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.hover-efficient:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 51, 102, 0.15);
+}
+
+/* Optimized Focus States */
+.focus-efficient:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 1px;
+  transition: outline 0.1s ease;
+}
+
+/* Scroll Optimization */
+.scroll-optimized {
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Touch Action Optimization */
+.touch-optimized {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(0, 51, 102, 0.1);
+}
+
+/* Layout Shift Prevention */
+.layout-stable {
+  min-height: 200px; /* Prevent layout shift */
+  aspect-ratio: 16 / 9; /* Maintain aspect ratio */
+}
+
+/* Efficient Loading States */
+.loading-efficient {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading-shimmer 1.5s infinite;
+}
+
+@keyframes loading-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Efficient Error Boundaries */
+.error-boundary {
+  padding: 1rem;
+  border: 1px solid var(--color-danger-500);
+  border-radius: 8px;
+  background: rgba(239, 68, 68, 0.05);
+  color: var(--color-danger-700);
+}
+
+/* Progressive Enhancement */
+.progressive-enhancement {
+  /* Base styles for all browsers */
+}
+
+@supports (display: grid) {
+  .progressive-enhancement {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+@supports (backdrop-filter: blur(10px)) {
+  .progressive-enhancement {
+    backdrop-filter: blur(10px);
+  }
+}
+
+@supports (aspect-ratio: 16 / 9) {
+  .progressive-enhancement {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* Efficient Media Queries */
+@media (max-width: 768px) {
+  .mobile-optimized {
+    font-size: 0.9rem;
+    padding: 0.75rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .tablet-optimized {
+    font-size: 1rem;
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .desktop-optimized {
+    font-size: 1.1rem;
+    padding: 1.25rem;
+  }
+}
+
+/* CPU-Efficient Animations */
+.cpu-efficient {
+  animation: cpu-light 3s ease-in-out infinite;
+}
+
+@keyframes cpu-light {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* Memory-Efficient Layouts */
+.memory-efficient {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.memory-efficient > * {
+  flex-shrink: 0;
+}
+
+/* Efficient Event Handling */
+.event-optimized {
+  /* Styles for elements with optimized event listeners */
+}
+
+.event-optimized::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+/* Optimized Form Elements */
+.form-optimized input,
+.form-optimized textarea,
+.form-optimized select {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  transition: border-color 0.15s ease;
+}
+
+.form-optimized input:focus,
+.form-optimized textarea:focus,
+.form-optimized select:focus {
+  outline: none;
+  border-color: var(--color-primary-500);
+}
+
+/* Efficient Modal Overlays */
+.modal-optimized {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  contain: layout style paint;
+}
+
+/* Optimized Card Components */
+.card-optimized {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  padding: 1rem;
+  transition: box-shadow 0.15s ease;
+  contain: layout style;
+}
+
+.card-optimized:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Efficient Button States */
+.btn-optimized {
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+.btn-optimized::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.btn-optimized:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Optimized Navigation */
+.nav-optimized {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  contain: layout style paint;
+}
+
+/* Efficient Image Loading */
+.image-container {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-secondary);
+}
+
+.image-container img {
+  width: 100%;
+  height: auto;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.image-container img.loaded {
+  opacity: 1;
+}
+
+.image-container::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border: 3px solid var(--color-primary-200);
+  border-top: 3px solid var(--color-primary-600);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.image-container.loaded::before {
+  display: none;
+}
+
+/* Optimized Video Elements */
+.video-optimized {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  preload: metadata;
+}
+
+/* Efficient Data Tables */
+.table-optimized {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.table-optimized th,
+.table-optimized td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.table-optimized th {
+  font-weight: 600;
+  text-align: left;
+}
+
+/* Optimized Lists */
+.list-optimized {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.list-optimized > li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.list-optimized > li:last-child {
+  border-bottom: none;
+}
+
+/* Memory-Efficient Icons */
+.icon-optimized {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+/* Efficient Spacing */
+.spacing-optimized {
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+}
+
+/* Optimized Z-Index Scale */
+.z-optimized {
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-toast: 1080;
+}
+
+/* Critical Resource Loading */
+.critical-resource {
+  /* Styles for critical above-the-fold resources */
+  font-display: block; /* Prevent invisible text */
+}
+
+/* Non-Critical Resource Loading */
+.non-critical-resource {
+  /* Styles for below-the-fold resources */
+  content-visibility: auto;
+  contain-intrinsic-size: 0 200px;
+}
+
+/* Performance Monitoring */
+.performance-marker {
+  /* Invisible elements for performance measurement */
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Efficient Error Handling */
+.error-optimized {
+  padding: 1rem;
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 8px;
+  color: var(--color-danger-700);
+  font-size: 0.875rem;
+}
+
+/* Optimized Print Styles */
+@media print {
+  .print-optimized {
+    color: black !important;
+    background: white !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+
+  .print-optimized * {
+    text-shadow: none !important;
+  }
+}
