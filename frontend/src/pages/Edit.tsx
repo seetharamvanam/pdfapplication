@@ -23,7 +23,6 @@ export default function Edit() {
   const [pdfDoc, setPdfDoc] = useState<pdfLib.PDFDocument | null>(null)
   const [loading, setLoading] = useState(false)
   const [pageNum, setPageNum] = useState(1)
-  const [totalPages, setTotalPages] = useState(0)
   const [selectedTool, setSelectedTool] = useState<DrawingTool>('select')
   const [toolColor, setToolColor] = useState('#000000')
   const [toolStrokeWidth, setToolStrokeWidth] = useState(2)
@@ -41,7 +40,6 @@ export default function Edit() {
       const pdf = await pdfLib.PDFDocument.load(arrayBuffer)
       setPdfDoc(pdf)
       setFile(selectedFile)
-      setTotalPages(pdf.getPageCount())
       setPageNum(1)
       
       // Create object URL for PdfViewer
