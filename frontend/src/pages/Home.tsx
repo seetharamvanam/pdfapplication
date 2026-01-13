@@ -46,14 +46,14 @@ export default function Home() {
               className="hero-badge"
             >
               <span className="badge-icon">🚀</span>
-              <span className="badge-text">Enterprise-Grade PDF Suite</span>
+              <span className="badge-text">Free Enterprise PDF Features</span>
             </motion.div>
 
             <h1 className="hero-title">
               Transform Your <span className="text-gradient">Documents</span> with Power
             </h1>
             <p className="hero-subtitle">
-              Secure, fast, and completely private. Process your documents directly in your browser with our professional suite of PDF tools powered by cutting-edge technology.
+              Get enterprise PDF features for free on the web. All processing happens entirely in your browser - no data is sent to the server. Your documents never leave your device.
             </p>
 
             <div className="hero-stats">
@@ -158,7 +158,7 @@ export default function Home() {
               <span>Professional Tools</span>
             </div>
             <h2 className="section-title">Complete PDF <span className="text-gradient">Power Suite</span></h2>
-            <p className="section-subtitle">Everything you need to manage your documents with enterprise-level precision and cutting-edge technology.</p>
+            <p className="section-subtitle">Everything you need to manage your documents - all free, all processed in your browser, with zero server upload.</p>
           </motion.div>
 
           <motion.div
@@ -274,7 +274,7 @@ export default function Home() {
               {
                 step: '02',
                 title: 'Upload & Process',
-                desc: 'Your files are processed securely in your browser with enterprise-grade security.',
+                desc: 'Your files are processed entirely in your browser - no data is sent to the server.',
                 icon: '🔒',
                 color: 'var(--color-success-500)'
               },
@@ -321,7 +321,7 @@ export default function Home() {
                 <span className="demo-icon">🚀</span>
                 <span className="demo-title">Try it now</span>
               </div>
-              <p className="demo-desc">Experience the power of our PDF suite with sample documents</p>
+              <p className="demo-desc">Experience the power of VeloPDF with sample documents</p>
               <Button variant="primary" className="demo-btn">
                 Start Demo
               </Button>
@@ -344,11 +344,11 @@ export default function Home() {
                   </svg>
                 </div>
                 <div className="logo-text">
-                  <span className="logo-title">PDF Suite</span>
-                  <span className="logo-tagline">Enterprise-Grade Solutions</span>
+                  <span className="logo-title">VeloPDF</span>
+                  <span className="logo-tagline">Free Enterprise Features</span>
                 </div>
               </div>
-              <p className="brand-desc">Secure, fast, and completely private document processing for the modern professional.</p>
+              <p className="brand-desc">Enterprise PDF features for free on the web. Processed entirely in your browser with zero server upload - your data never leaves your device.</p>
               <div className="social-links">
                 <a href="#" className="social-link" aria-label="Twitter">
                   <span>🐦</span>
@@ -399,7 +399,7 @@ export default function Home() {
 
         <div className="footer-bottom">
           <div className="footer-bottom-content">
-            <p>&copy; {new Date().getFullYear()} PDF Suite. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} VeloPDF. All rights reserved.</p>
             <div className="footer-badges">
               <span className="badge">🔒 SOC 2 Compliant</span>
               <span className="badge">🛡️ GDPR Ready</span>

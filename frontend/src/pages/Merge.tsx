@@ -24,7 +24,7 @@ export default function Merge() {
         <div>
           <h1 className="page-title">Merge PDF</h1>
           <p className="page-subtitle">
-            Combine multiple PDF documents into a single file quickly and securely in your browser with enterprise-grade processing.
+            Combine multiple PDF documents into a single file - processed entirely in your browser. No data is sent to the server.
           </p>
         </div>
         <div className="page-actions">

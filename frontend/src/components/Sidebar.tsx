@@ -165,7 +165,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               <IconPdf className="brand-icon" />
             </div>
             <div className="brand-text">
-              <span className="brand-title">PDF Suite</span>
+              <span className="brand-title">VeloPDF</span>
               <span className="brand-subtitle">Enterprise Tools</span>
             </div>
           </div>

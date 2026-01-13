@@ -57,8 +57,8 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
             </svg>
           </motion.div>
           <div className="brand-text-container">
-            <span className="brand-text">PDF</span>
-            <span className="brand-text-accent">Suite</span>
+            <span className="brand-text">Velo</span>
+            <span className="brand-text-accent">PDF</span>
           </div>
         </a>
 
